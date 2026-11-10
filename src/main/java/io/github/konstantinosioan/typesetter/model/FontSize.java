@@ -5,5 +5,8 @@ package io.github.konstantinosioan.typesetter.model;
  * The renderer decides how big each value is.
  */
 public enum FontSize {
-    NORMAL, LARGE;
+    /** The default size, used for body text. */
+    NORMAL,
+    /** A larger size, typically used for headings. */
+    LARGE
 }

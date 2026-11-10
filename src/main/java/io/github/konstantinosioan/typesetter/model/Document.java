@@ -5,10 +5,15 @@ import java.util.Objects;
 
 /**
  * An ordered list of paragraphs, independent of any output format.
+ *
+ * @param paragraphs the paragraphs in reading order; stored as an immutable copy
  */
 public record Document(List<Paragraph> paragraphs) {
     /**
-     * @throws NullPointerException if {@code paragraphs} is null
+     * Creates a document, storing an immutable copy of {@code paragraphs}.
+     *
+     * @param paragraphs the paragraphs in reading order
+     * @throws NullPointerException if {@code paragraphs} is null or contains null
      */
     public Document {
         Objects.requireNonNull(paragraphs, "paragraphs must not be null.");

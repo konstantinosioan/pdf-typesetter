@@ -6,6 +6,6 @@ package io.github.konstantinosioan.typesetter.model;
 public enum FillMode {
     /** Justified to both margins, except the last line of a paragraph. */
     FILL,
-    /** The default: left-aligned text with a ragged right-edge. */
-    NOFILL;
+    /** The default: left-aligned text with a ragged right edge. */
+    NOFILL
 }
