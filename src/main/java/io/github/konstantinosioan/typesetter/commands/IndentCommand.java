@@ -24,6 +24,10 @@ public record IndentCommand(int delta) implements Command {
     public static IndentCommand parse(String argument) {
         Objects.requireNonNull(argument, "argument must not be null.");
 
+        if (argument.isEmpty()) {
+            throw new IllegalArgumentException(".indent requires an argument such as +2");
+        }
+
         if (!argument.startsWith("+") && !argument.startsWith("-")) {
             throw new IllegalArgumentException(
                 ".indent argument must start with + or -: " + argument);
