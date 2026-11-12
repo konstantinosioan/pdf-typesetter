@@ -207,6 +207,17 @@ class DocumentBuilderTest {
     }
 
     @Test
+    void indentStopsAtMaximumInsteadOfOverflowing() {
+        builder.changeIndent(2);
+        builder.changeIndent(Integer.MAX_VALUE);
+        builder.addText("Hello");
+
+        assertEquals(
+            List.of(new Paragraph(Integer.MAX_VALUE, NOFILL, List.of(regular("Hello")))),
+            builder.build().paragraphs());
+    }
+
+    @Test
     void indentChangeWithNoEffectKeepsParagraph() {
         builder.addText("Hello");
         builder.changeIndent(0);

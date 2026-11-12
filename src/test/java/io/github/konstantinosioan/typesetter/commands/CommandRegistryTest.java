@@ -55,6 +55,14 @@ class CommandRegistryTest {
     }
 
     @Test
+    void missingIndentArgumentHasClearMessage() {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+            () -> registry.create("indent", ""));
+
+        assertEquals(".indent requires an argument such as +2", e.getMessage());
+    }
+
+    @Test
     void rejectsUnknownCommand() {
         assertThrows(IllegalArgumentException.class, () -> registry.create("underline", ""));
     }

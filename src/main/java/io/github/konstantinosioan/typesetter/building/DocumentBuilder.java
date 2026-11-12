@@ -77,14 +77,15 @@ public final class DocumentBuilder {
 
     /**
      * Changes the indent by {@code delta} units. The indent never goes
-     * below zero. Because indent applies to a whole paragraph, an actual
-     * change ends the current paragraph; a change that leaves the indent
-     * the same does nothing.
+     * below zero, and stops at {@link Integer#MAX_VALUE} instead of overflowing.
+     * Because indent applies to a whole paragraph, an actual change ends the
+     * current paragraph; a change that leaves the indent the same does nothing.
      *
      * @param delta the number of units to indent by; negative to outdent
      */
     public void changeIndent(int delta) {
-        int newLevel = Math.max(0, indentLevel + delta);
+        long requestedLevel = (long) indentLevel + delta;
+        int newLevel = (int) Math.max(0, Math.min(Integer.MAX_VALUE, requestedLevel));
 
         if (newLevel == indentLevel) {
             return;

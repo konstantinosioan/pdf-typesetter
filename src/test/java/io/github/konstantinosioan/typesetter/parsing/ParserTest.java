@@ -46,6 +46,13 @@ class ParserTest {
     }
 
     @Test
+    void paragraphCommandStartsNewParagraph() throws ParseException {
+        assertEquals(
+            List.of(defaultParagraph(regular("Hello")), defaultParagraph(regular("world"))),
+            parser.parse(List.of("Hello", ".paragraph", "world")).paragraphs());
+    }
+
+    @Test
     void commandsAreApplied() throws ParseException {
         List<String> lines =
             List.of(".bold", "Hello", ".paragraph", ".indent +2", ".fill", ".large", "world");
