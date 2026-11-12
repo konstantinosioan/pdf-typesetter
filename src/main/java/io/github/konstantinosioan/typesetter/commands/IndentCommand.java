@@ -30,14 +30,14 @@ public record IndentCommand(int delta) implements Command {
 
         if (!argument.startsWith("+") && !argument.startsWith("-")) {
             throw new IllegalArgumentException(
-                ".indent argument must start with + or -: " + argument);
+                    ".indent argument must start with + or -: " + argument);
         }
 
         try {
             return new IndentCommand(Integer.parseInt(argument));
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(
-                ".indent argument must be a signed integer: " + argument, e);
+                    ".indent argument must be a signed integer: " + argument, e);
         }
     }
 
