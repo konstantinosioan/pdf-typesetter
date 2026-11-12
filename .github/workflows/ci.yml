@@ -1,0 +1,35 @@
+name: Continuous Integration
+
+on: push
+
+jobs:
+  build_and_test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: "temurin"
+          java-version: "17"
+          cache: "maven"
+
+      - name: Build and run tests
+        id: build
+        run: ./mvnw -B -ntp verify
+
+      - name: Check Javadoc
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: ./mvnw -B -ntp -q javadoc:javadoc
+
+      - name: Smoke test the example
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: |
+          ./mvnw -B -ntp -q exec:java -Dexec.args="examples/guide.txt guide.pdf"
+          test "$(head -c 4 guide.pdf)" = "%PDF"
