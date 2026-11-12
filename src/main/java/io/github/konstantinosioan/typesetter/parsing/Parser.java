@@ -13,7 +13,7 @@ import io.github.konstantinosioan.typesetter.model.Document;
  * Reads lines of input and turns them into a {@link Document}.
  * A line starting with a dot is a command; any other line is text.
  * A line starting with {@code \&} is always text; the {@code \&} is removed,
- * so text can begin with a dot.
+ * so text can begin with a dot. The escape comes from roff, which uses it the same way.
  */
 public final class Parser {
     private static final String COMMAND_PREFIX = ".";
@@ -62,6 +62,8 @@ public final class Parser {
     /**
      * Splits a command line into its name and argument, then applies the matching
      * command to the builder, reporting any problem against the given line number.
+     * Everything after the name is the argument, so extra words make the command invalid
+     * instead of being ignored.
      */
     private void applyCommand(String line, int lineNumber, DocumentBuilder builder)
             throws ParseException {

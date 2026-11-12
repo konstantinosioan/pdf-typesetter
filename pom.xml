@@ -7,24 +7,38 @@
     <groupId>io.github.konstantinosioan</groupId>
     <artifactId>pdf-typesetter</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>PDF Typesetter</name>
+    <description>Turns a text file with formatting commands into a paginated PDF.</description>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <itext.version>8.0.5</itext.version>
     </properties>
 
     <dependencies>
+        <!-- only the iText modules the code imports; itext-core would pull in all fourteen -->
         <dependency>
             <groupId>com.itextpdf</groupId>
-            <artifactId>itext-core</artifactId>
-            <version>8.0.5</version>
-            <type>pom</type>
+            <artifactId>kernel</artifactId>
+            <version>${itext.version}</version>
         </dependency>
-        <!-- iText logs through SLF4J; this silences the "no provider" warning -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>io</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>layout</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <!-- iText logs through SLF4J 1.7; this matching binding silences its startup warning -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
-            <version>2.0.13</version>
+            <version>1.7.36</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -48,6 +62,17 @@
                 <version>3.2.0</version>
                 <configuration>
                     <mainClass>io.github.konstantinosioan.typesetter.Main</mainClass>
+                </configuration>
+            </plugin>
+            <!-- lets you run: ./mvnw javadoc:javadoc (fails on missing or broken docs) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.12.0</version>
+                <configuration>
+                    <doclint>all</doclint>
+                    <failOnWarnings>true</failOnWarnings>
+                    <quiet>true</quiet>
                 </configuration>
             </plugin>
         </plugins>

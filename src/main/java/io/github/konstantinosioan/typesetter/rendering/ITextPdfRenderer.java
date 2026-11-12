@@ -25,11 +25,19 @@ import io.github.konstantinosioan.typesetter.model.TextRun;
  * Renders documents with iText, using the standard Helvetica fonts.
  * One indent unit is the width of {@code WWWW} in the normal font,
  * and indentation is capped at half the text width so text always fits.
+ *
+ * <p>PDF viewers must provide the standard fonts, or substitutes with the same letter widths,
+ * so nothing is embedded and files stay small. The fonts only cover Western European
+ * characters, and iText leaves any other character out of the PDF without reporting an error.
  */
 public final class ITextPdfRenderer implements PdfRenderer {
+    // 12 pt is a common size for body text; 18 pt is one and a half times that, for headings.
     private static final float NORMAL_FONT_SIZE = 12f;
     private static final float LARGE_FONT_SIZE = 18f;
+    // About 16 mm at the normal size.
     private static final String INDENT_UNIT_TEXT = "WWWW";
+    // iText silently drops a paragraph whose left margin leaves no room for its text, so the
+    // indent needs a cap below the full width. Half still leaves room for several words a line.
     private static final float MAX_INDENT_FRACTION = 0.5f;
 
     @Override
@@ -48,6 +56,8 @@ public final class ITextPdfRenderer implements PdfRenderer {
                 pdf.add(toPdfParagraph(paragraph, fonts).setMarginLeft(indent));
             }
         } catch (PdfException e) {
+            // iText reports a failed write as an unchecked PdfException that wraps the
+            // IOException, so unwrap it to throw the checked exception this method declares.
             if (e.getCause() instanceof IOException io) {
                 throw io;
             }
@@ -101,7 +111,8 @@ public final class ITextPdfRenderer implements PdfRenderer {
 
     /**
      * The fonts for one rendering. A {@link PdfFont} belongs to a single PDF,
-     * so a new set is created for each document.
+     * so a new set is created for each document. Bold uses Helvetica Bold, whose letters are
+     * heavier and wider, instead of iText's simulated bold, which only outlines the regular ones.
      */
     private record Fonts(PdfFont regular, PdfFont italic, PdfFont bold) {
         /**

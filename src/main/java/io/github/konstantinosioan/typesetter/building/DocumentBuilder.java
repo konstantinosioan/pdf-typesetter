@@ -17,6 +17,8 @@ import io.github.konstantinosioan.typesetter.model.TextRun;
  * It knows nothing about parsing or how the document is rendered.
  */
 public final class DocumentBuilder {
+    // Quote marks are left out on purpose: a straight " or ' can open or close a quotation,
+    // so the character alone does not say which word it belongs to.
     private static final String CLOSING_PUNCTUATION = ",.;:!?)]}";
     private static final String OPENING_PUNCTUATION = "([{";
 

@@ -26,6 +26,7 @@ import io.github.konstantinosioan.typesetter.rendering.ITextPdfRenderer;
 public final class Main {
     private static final int EXIT_SUCCESS = 0;
     private static final int EXIT_FAILURE = 1;
+    // The usual status for bad command-line arguments, as in bash and Python's argparse.
     private static final int EXIT_USAGE = 2;
     private static final String USAGE = "Usage: <input.txt> <output.pdf>";
     private static final String BYTE_ORDER_MARK = "\uFEFF";
@@ -51,8 +52,8 @@ public final class Main {
      *
      * @param args the input file path and the output PDF path
      * @param err where error and usage messages are printed
-     * @return 0 on success, 1 if the input cannot be read, parsed or rendered, or 2 if the
-     *         arguments are wrong: not exactly two, an invalid path, or the same file twice
+     * @return 0 on success, 1 if reading, parsing or writing fails, or 2 if the arguments
+     *         are wrong: not exactly two, an invalid path, or the same file twice
      */
     static int run(String[] args, PrintStream err) {
         if (args.length != 2) {

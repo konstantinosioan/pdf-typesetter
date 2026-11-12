@@ -14,7 +14,8 @@ import io.github.konstantinosioan.typesetter.building.DocumentBuilder;
 public record IndentCommand(int delta) implements Command {
     /**
      * Creates a command from a signed indent argument, as written after
-     * {@code .indent} in the input.
+     * {@code .indent} in the input. The sign is required because a bare number is ambiguous:
+     * in roff, {@code .in 2} sets the indent to 2 instead of adding 2.
      *
      * @param argument a signed integer such as {@code +2} or {@code -1}
      * @return a command that shifts the indent by the given amount

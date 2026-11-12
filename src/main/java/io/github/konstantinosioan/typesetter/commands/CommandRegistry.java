@@ -27,7 +27,7 @@ public final class CommandRegistry {
             "normal", new FontSizeCommand(NORMAL));
 
     /**
-     * Creates the command with the given name. Only {@code indent} takes
+     * Returns the command with the given name. Only {@code indent} takes
      * an argument; every other command must be given an empty one.
      *
      * @param name the command name, without the leading dot
