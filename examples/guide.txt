@@ -1,0 +1,197 @@
+.large
+.bold
+A Short Guide to the Input Format
+.normal
+.regular
+.paragraph
+.italic
+This document was made from a plain text file. The headings, the changes of style and the
+indented blocks all come from a small set of commands written in that file.
+.regular
+.paragraph
+The source is in the same folder as this PDF, in guide.txt, so you can read the two side by
+side. Most sections below describe one part of the format and use it at the same time. If
+something in the PDF catches your eye, find the same words in the text file and look at the
+lines around them.
+.paragraph
+.large
+.bold
+Text and commands
+.normal
+.regular
+.paragraph
+The input is read one line at a time. A line that starts with a dot is a command, and every
+other line is text. Commands are never printed. They change how the text after them looks,
+starting on the next line, and the change lasts until another command replaces it.
+.paragraph
+Consecutive lines of text are joined into one paragraph with a single space between them,
+so the line breaks in the source file make no difference. You can break lines wherever is
+convenient while editing. The words are flowed across the page, onto a new line when the
+current one is full and onto a new page when the current page runs out of room. Spaces at
+the start and end of each line are dropped, and blank lines are skipped.
+.paragraph
+A command needs its dot in the very first column. A line that starts with spaces and then a
+dot is treated as ordinary text. If the input contains a misspelled or unknown command, the
+program stops and reports the file name and line number, so a typo shows up straight away
+and never ends up in the finished document.
+.paragraph
+.large
+.bold
+Paragraphs
+.normal
+.regular
+.paragraph
+The paragraph command ends the current paragraph, and the text after it starts a new one.
+Using it twice in a row, or at the very start of the file, has no extra effect, because empty
+paragraphs are never created. The first paragraph of a document does not need the command,
+since any text before the first paragraph command forms a paragraph of its own.
+.paragraph
+The fill commands and the indent command also start a new paragraph when they change
+something. Both apply to a whole paragraph at once, since a paragraph cannot be half
+justified or half indented. If one of them would change nothing, for example switching to the
+mode that is already active, the current paragraph carries on.
+.paragraph
+.large
+.bold
+Fill mode
+.normal
+.regular
+.paragraph
+Text starts in no-fill mode. Each line is aligned to the left margin and the right edge is
+left ragged, as in this paragraph. A line ends wherever the last word that fits happens to
+finish, so the lengths vary from one line to the next.
+.fill
+.paragraph
+This paragraph is in fill mode, which justifies the text. The program adds space between the
+words, and a little between the letters, until every line reaches both the left and the right
+margin, and the paragraph becomes a neat rectangle. The last line is the exception. It stays
+left aligned, because stretching a short final line across the page would leave large gaps
+between its few words.
+Fill mode suits long passages of continuous prose, and no-fill mode suits short notes and
+lists, where the ragged edge looks less formal.
+.nofill
+.paragraph
+The nofill command switches back. Like the other paragraph-level settings, the mode applies to
+every paragraph that follows until a fill or nofill command changes it again.
+.paragraph
+.large
+.bold
+Font styles
+.normal
+.regular
+.paragraph
+Three commands set the style of the text that follows. The regular command gives upright
+text, the italic command gives
+.italic
+slanted text, which works well for emphasis and for the titles of books,
+.regular
+and the bold command gives
+.bold
+heavier text that stands out on the page
+.regular
+\&. A style change can happen in the middle of a paragraph, and it applies only to the words
+written after it.
+.paragraph
+Each style has its own font from the Helvetica family. The italic font is the regular one
+slanted, while the bold font has heavier and slightly wider letters, so bold words take up
+more room on the line.
+.paragraph
+.large
+.bold
+Font sizes
+.normal
+.regular
+.paragraph
+The large command makes the text that follows bigger, and the normal command returns to the
+usual size. Every heading in this guide is written with the large and bold commands, followed
+by the normal and regular commands so the body text goes back to its usual look. The size
+can also change in the middle of a sentence, which makes it possible to set a
+.large
+single word
+.normal
+in a larger size without touching the rest of the line. Lines that contain larger text get
+more room automatically, so nothing overlaps.
+.paragraph
+.large
+.bold
+Indentation
+.normal
+.regular
+.paragraph
+The indent command moves the left margin of the paragraphs that follow. It takes a signed
+number. A plus sign moves the margin right by that many units, and a minus sign moves it
+back. One unit is the width of four capital W characters in the normal font.
+.indent +2
+.paragraph
+This paragraph is indented by two units. Every line of it starts at the same deeper position,
+including the first, which sets quotations and examples apart from the text around them.
+.indent +2
+.fill
+.paragraph
+Indents add up. This paragraph is two units further in again, four in total, and it is also
+justified, so the indent and fill settings can be combined. The right margin has stayed where
+it was. Only the left edge of the text has moved.
+.nofill
+.indent -4
+.paragraph
+Moving the margin back by four units returns to where the guide began. An indent can never go
+below zero, so a large minus value brings the text back to the left margin. Very large
+indents stop at the middle of the page, which leaves room for the words.
+.paragraph
+.large
+.bold
+Punctuation and spacing
+.normal
+.regular
+.paragraph
+Lines are joined with a space, so punctuation needs a little care. When a line begins with a
+comma, a full stop or another mark that belongs to the word before it, no space is added
+, as this comma shows. In the same way, no space is added after an opening bracket (
+like this one), and the bracketed words sit right against it. With these two rules you can
+switch to bold or italic for a single word and still finish the sentence with the punctuation
+in the right place.
+.paragraph
+A line that should start with a full stop would normally be read as a command, because
+commands start with a dot. To write one, begin the line with a backslash followed by an
+ampersand. Those two characters are removed and the rest of the line is kept as text. The
+full stop after the bold words in the font styles section was written this way.
+.paragraph
+.large
+.bold
+Errors and limitations
+.normal
+.regular
+.paragraph
+When the input has a problem, the program prints a short message and does not create the PDF.
+For a misspelled command, an indent without a sign, or an argument given to a command that
+takes none, the message gives the line where the problem was found. A missing input file is
+reported by name. The program also refuses to write its output over its own input file.
+.paragraph
+The standard PDF fonts cover English, the accented letters of Western European languages, and
+typographic punctuation such as curly quotes and dashes. They cannot draw characters outside
+that range, including Greek, Cyrillic and emoji. PDF viewers must provide these fonts, or
+substitutes with the same letter widths, so the files stay small and the program does not
+need to ship any font files.
+.paragraph
+.large
+.bold
+Putting it together
+.normal
+.regular
+.paragraph
+A typical document opens with a large heading, follows it with a few paragraphs of body text,
+and uses fill mode for longer passages. Indented blocks set off examples and quotes, and bold
+or italic words carry emphasis where it is needed. Each effect takes one or two short commands,
+and none of them requires knowing how a PDF file works inside.
+.indent +1
+.fill
+.paragraph
+.italic
+To learn the format, edit the source of this guide and generate the PDF again. Try removing
+a paragraph command, moving an indent, or switching a section into fill mode, and compare the
+result with this version.
+.regular
+.nofill
+.indent -1
+.paragraph
+The program takes two arguments: the text file to read and the PDF file to create.
