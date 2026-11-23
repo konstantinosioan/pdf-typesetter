@@ -89,6 +89,10 @@ Only the renderer depends on iText. The parser and builder can be tested without
 - All indents deeper than half the text width end up at the same position.
 - If writing fails partway through, for example because the disk is full, a partial PDF can be left behind.
 
+## What could be simpler
+
+Each command is its own class implementing `Command`, and `CommandRegistry` looks them up by name. That makes a new command easy to add without touching the parser, but with only nine commands the extra layer mostly makes the code harder to follow and change. To see what one input line does, you have to trace it from `Parser` through the registry and a command class before it reaches `DocumentBuilder`. A `switch` on the command name in `Parser` that calls the builder directly would keep all of that in one place.
+
 ## Development
 
 ```sh
